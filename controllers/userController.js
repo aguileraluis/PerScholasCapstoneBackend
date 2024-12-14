@@ -30,14 +30,14 @@ export const registerUser = async (req, res) => {
 
       user.password = undefined; 
 
-      res.status(201).json(user);  
+      return res.status(201).json(user);  
     } else {
       return res 
-        .status()
+        .status(400)
         .json({ status: false, message: "Invalid user data" }); 
     }
   } catch (error) {
-    return res.status(400).json({ status: false, message: error.message });
+     res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -206,6 +206,22 @@ export const activateUserProfile = async (req, res) => {
    const { id } = req.params; 
    const user = await User.findById(id); 
 
+   if (user) {
+    user.isActive = req.body.isActive; 
+    
+    await user.save(); 
+
+    user.password = undefined; 
+
+    res.status(201).json({
+      status: true, 
+      message: `User account has been ${
+        user?.isActive ? "activated" : "disabled"
+      }`
+    })
+   } else {
+    res.status(404).json({ status: false, message: "User not found" }); 
+   }
     
   } catch (error) {
     console.log(error); 
@@ -215,22 +231,13 @@ export const activateUserProfile = async (req, res) => {
 
 export const deleteUserProfile = async (req, res) => {
   try {
-    const { userId } = req.user; 
+    const { id } = req.params; 
 
-    const user = await User.findById(userId); 
+    await User.findByIdAndDelete(id); 
 
-    if (user) {
-      user.password = req.body.password; 
-
-      await user.save(); 
-
-      user.password = undefined; 
-
-      res.status(201).json({
-        status: true, 
-        message: `Password changed successfully.`,
-      })
-    }
+    res 
+      .status(200)
+      .json({ status: true, messag: "User deleted successfully" }); 
   } catch (error) {
     console.log(error); 
     return res.status(400).json({ status: false, message: error.message });

@@ -1,4 +1,4 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const taskSchema = new Schema({
   title: {type: String, required: true},
@@ -37,7 +37,7 @@ const taskSchema = new Schema({
     activity: String, 
     date: {
       type: Date, 
-      default: new Date.now()
+      default: new Date()
     }, 
     by: {
       type: Schema.Types.ObjectId, 
