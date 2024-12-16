@@ -30,14 +30,18 @@ export const registerUser = async (req, res) => {
 
       user.password = undefined; 
 
-      return res.status(201).json(user);  
+      res.status(201).json({
+        status: true, 
+        message: "User registration successful", 
+        user
+      });  
     } else {
       return res 
         .status(400)
         .json({ status: false, message: "Invalid user data" }); 
     }
   } catch (error) {
-     res.status(400).json({ status: false, message: error.message });
+    return res.status(400).json({ status: false, message: error.message });
   }
 };
 
@@ -132,7 +136,7 @@ export const updateUserProfile = async (req, res) => {
       user.title = req.body.title || user.title; 
       user.role = req.body.role || user.role; 
 
-      const updatedUser = await User.save(); 
+      const updatedUser = await user.save(); 
 
       user.password = undefined; 
 

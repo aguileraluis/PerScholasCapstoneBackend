@@ -10,8 +10,6 @@ const dbConnection = async () => {
   }
 }; 
 
-export default dbConnection; 
-
 export const createJWT = (res, userId) => {
   const token = jwt.sign({userId}, process.env.JWT_SECRET, { expiresIn: "1d"}); 
 
@@ -22,4 +20,6 @@ export const createJWT = (res, userId) => {
     maxAge: 1 * 24 * 60 * 60 * 1000, 
   })
 };
+
+export default dbConnection; 
 
