@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Notice from "../models/notification.js";
-import User from "../models/user.js";
+import User from "../models/userModel.js";
 import createJWT from "../utils/index.js";
 
 // POST request - login user
@@ -79,6 +79,22 @@ const logoutUser = (req, res) => {
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
+
+// @GET -   Get user profile
+// const getUserProfile = asyncHandler(async (req, res) => {
+//   const { userId } = req.user;
+
+//   const user = await User.findById(userId);
+
+//   user.password = undefined;
+
+//   if (user) {
+//     res.json({ ...user });
+//   } else {
+//     res.status(404);
+//     throw new Error("User not found");
+//   }
+// });
 
 const getTeamList = asyncHandler(async (req, res) => {
   const { search } = req.query;
@@ -209,6 +225,14 @@ const activateUserProfile = asyncHandler(async (req, res) => {
 
 const changeUserPassword = asyncHandler(async (req, res) => {
   const { userId } = req.user;
+
+  // Remove this condition
+  if (userId === "65ff94c7bb2de638d0c73f63") {
+    return res.status(404).json({
+      status: false,
+      message: "This is a test user. You can not chnage password. Thank you!!!",
+    });
+  }
 
   const user = await User.findById(userId);
 
