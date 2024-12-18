@@ -80,16 +80,16 @@ const duplicateTask = asyncHandler(async (req, res) => {
 
     //alert users of the task
     let text = "New task has been assigned to you";
-    if (team.team?.length > 1) {
-      text = text + ` and ${task.team?.length - 1} others.`;
+    if (task?.team?.length > 1) {
+      text = text + ` and ${task?.team?.length - 1} others.`;
     }
 
     text =
       text +
       ` The task priority is set a ${
-        task.priority
+        task?.priority
       } priority, so check and act accordingly. The task date is ${new Date(
-        task.date
+        task?.date
       ).toDateString()}. Thank you!!!`;
 
     const activity = {
@@ -155,7 +155,7 @@ const updateTask = asyncHandler(async (req, res) => {
 
     res
       .status(200)
-      .json({ status: true, message: "Task duplicated successfully." });
+      .json({ status: true, message: "Task saved successfully." });
   } catch (error) {
     return res.status(400).json({ status: false, message: error.message });
   }
