@@ -63,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     user.password = undefined;
 
-    res.status(201).json(user);
+    res.status(201).json({ user: user, message: "User created successfully" });
   } else {
     return res
       .status(400)
@@ -181,7 +181,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
   if (user) {
     user.name = req.body.name || user.name;
-    // user.email = req.body.email || user.email;
+    user.email = req.body.email || user.email;
     user.title = req.body.title || user.title;
     user.role = req.body.role || user.role;
 
