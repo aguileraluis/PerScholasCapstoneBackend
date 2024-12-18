@@ -8,12 +8,12 @@ import routes from "./routes/index.js";
 import dbConnection from "./utils/connectDB.js";
 
 dotenv.config();
-app.use(cors()); 
 dbConnection();
 
 const port = process.env.PORT || 5000;
 
 const app = express();
+
 
 app.use(
   cors({
