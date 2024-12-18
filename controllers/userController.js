@@ -80,22 +80,6 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-// @GET -   Get user profile
-// const getUserProfile = asyncHandler(async (req, res) => {
-//   const { userId } = req.user;
-
-//   const user = await User.findById(userId);
-
-//   user.password = undefined;
-
-//   if (user) {
-//     res.json({ ...user });
-//   } else {
-//     res.status(404);
-//     throw new Error("User not found");
-//   }
-// });
-
 const getTeamList = asyncHandler(async (req, res) => {
   const { search } = req.query;
   let query = {};
@@ -103,7 +87,8 @@ const getTeamList = asyncHandler(async (req, res) => {
   if (search) {
     const searchQuery = {
       $or: [
-        { title: { $regex: search, $options: "i" } },
+        // case insensitive match for title, name, role and email
+        { title: { $regex: search, $options: "i" } }, 
         { name: { $regex: search, $options: "i" } },
         { role: { $regex: search, $options: "i" } },
         { email: { $regex: search, $options: "i" } },

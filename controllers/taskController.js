@@ -9,7 +9,7 @@ const createTask = asyncHandler(async (req, res) => {
     const { title, team, stage, date, priority, assets, links, description } =
       req.body;
 
-    //alert users of the task
+    // alert users of the task
     let text = "New task has been assigned to you";
     if (team?.length > 1) {
       text = text + ` and ${team?.length - 1} others.`;
