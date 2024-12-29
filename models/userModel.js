@@ -15,11 +15,13 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+// Encrypting password, the .pre method is used to add a pre-hook to the mongoose shcmea methods and can use a pre schema method
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
 
+  // save the encrypted password 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
